@@ -8,10 +8,10 @@
  * @author Jacob Teves- jteves, Andrew Williams- dwill225
  * @version 3/21/2016
  */
-public class Mergesort {// jUst testing this out
+public class Mergesort {
 
 	/**
-	 * The entry point of the application //another test
+	 * The entry point of the application
 	 * 
 	 * @param args
 	 */
