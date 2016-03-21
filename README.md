@@ -2,8 +2,4 @@
 
 A git repository for Project 3 in CS 3114
 
-Testing
-
-Updating from GitHub
-
-Re-updating from GitHub
+Updating from eclipse

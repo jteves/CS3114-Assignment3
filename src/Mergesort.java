@@ -5,7 +5,7 @@
 /**
  * The class containing the main method, the entry point of the application.
  * 
- * @author { your name here }
+ * @author Jacob Teves- jteves
  * @version { put something here }
  */
 public class Mergesort {
