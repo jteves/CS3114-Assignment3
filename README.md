@@ -1,7 +1,3 @@
 # CS3114-Assignment3
 
 A git repository for Project 3 in CS 3114
-
-Updating from eclipse
-
-![Alt text](/P3.pdf "Project Specs")
