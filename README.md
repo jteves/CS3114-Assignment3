@@ -4,4 +4,4 @@ A git repository for Project 3 in CS 3114
 
 Updating from eclipse
 
-![Alt text](/relative/path/to/p1.png "Optional Title")
+![Alt text](/p1.png "Optional Title")
