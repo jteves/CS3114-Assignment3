@@ -11,19 +11,20 @@ public class BufferPoolTest extends TestCase {
      * @throws IOException 
      */
     public void setUp() throws IOException {
-//        FileGenerator whoCares = new FileGenerator();
-//        String[] list = {"-a", "DrewTest.txt", "1"};
-//        try {
-//            whoCares.generateFile(list);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        pool = new BufferPool("DrewTest.txt", 3);
-        sort = new Mergesort(1 * 4096, pool);
+        FileGenerator whoCares = new FileGenerator();
+        String[] list = {"-a", "DrewTest.txt", "4096"};
+        try {
+            whoCares.generateFile(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pool = new BufferPool("DrewTest.txt", 5);
+        sort = new Mergesort(4096 * 4096, pool);
     }
     
     public void test() {
         sort.sort();
+        sort.bp.flush();
     }
 
 }

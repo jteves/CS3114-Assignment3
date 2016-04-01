@@ -12,7 +12,7 @@
 public class Mergesort {
 
     private int len;
-    private BufferPool bp;
+    BufferPool bp;
     
     
 	/**
@@ -54,7 +54,7 @@ public class Mergesort {
                 ans = new byte[step];
                 left = 0;
                 right = step / 2;
-                for (int i = 0; i < step / 8; i++) {
+                for (int i = 0; i < step / 4; i++) {
                     if (right == step || arr[left] > arr[right]) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];
@@ -62,7 +62,7 @@ public class Mergesort {
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
-                    else if (right == step / 2 || arr[left] < arr[right]) {
+                    else if (left == step / 2 || arr[left] < arr[right]) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
@@ -83,6 +83,14 @@ public class Mergesort {
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
+                }
+                int test = ans[1];
+                for (int j = 1; j < ans.length; j += 4) {
+                    if (test < ans[j]) {
+                        System.out.println("dang");
+                    }
+                    test = ans[j];
+                    
                 }
                 bp.recieveFromMerge(beg, ans);
                 beg += step;
