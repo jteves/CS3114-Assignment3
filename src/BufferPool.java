@@ -117,7 +117,7 @@ public class BufferPool  {
     public boolean isContained(int x) {
         iteToHead();
         boolean ans = false;
-        while(ite != last) {
+        while(ite.next != null) {
             iteNext();
             if (ite.pos == x) {
                 ans = true;
@@ -159,16 +159,36 @@ public class BufferPool  {
         }
     }
     
-    //FIX THIS NOT FINISHED
+    public void flush() {
+        byte[] temp;
+        iteToHead();
+        iteNext();
+        while (ite != null) {
+            temp = ite.data;
+            try {
+                raf.seek(4096 * ite.pos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                raf.write(temp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            iteNext();
+        }
+    }
+    
+    
     public byte[] sendToMerge(int beg, int end) {
         int dif = end - beg;
         byte[] temp = new byte[dif];
         int bytesRead = 0;
-        while (bytesRead != temp.length) {
+        while (bytesRead < temp.length) {
             if (isContained((beg + bytesRead) / 4096)) {
                 int i = (beg + bytesRead) % 4096;
                 byte[] cur = ite.data;
-                while (bytesRead != temp.length && i < 4096) {
+                while (bytesRead < temp.length && i < 4096) {
                     temp[bytesRead] = cur[i];
                     temp[bytesRead + 1] = cur[i + 1];
                     temp[bytesRead + 2] = cur[i + 2];
@@ -180,6 +200,7 @@ public class BufferPool  {
             }
             else {
                 if (isFull()){
+                    write(raf, last.pos);
                     remove();
                 }
                 read(raf, (beg + bytesRead) / 4096);
@@ -196,6 +217,45 @@ public class BufferPool  {
             }
         }
         return temp;
+    }
+    
+    public void recieveFromMerge(int beg, byte[] arr) {
+        int dif = arr.length;
+        int bytesRead = 0;
+        while (bytesRead < dif) {
+            if (isContained((beg + bytesRead) / 4096)) {
+                int i = (beg + bytesRead) % 4096;
+                byte[] cur = ite.data;
+                while (bytesRead < dif && i < 4096) {
+                    cur[i] = arr[bytesRead];
+                    cur[i + 1] = arr[bytesRead + 1];
+                    cur[i + 2] = arr[bytesRead + 2];
+                    cur[i + 3] = arr[bytesRead + 3];
+                    bytesRead += 4;
+                    i+=4;
+                }
+                iteNodeToHead();
+                head.next.data = cur;
+            }
+            else {
+                if (isFull()){
+                    write(raf, last.pos);
+                    remove();
+                }
+                read(raf, (beg + bytesRead) / 4096);
+                int i = (beg + bytesRead) % 4096;
+                byte[] cur = head.next.data;
+                while (bytesRead < dif && i < 4096) {
+                    cur[i] = arr[bytesRead];
+                    cur[i + 1] = arr[bytesRead + 1];
+                    cur[i + 2] = arr[bytesRead + 2];
+                    cur[i + 3] = arr[bytesRead + 3];
+                    bytesRead += 4;
+                    i+=4;
+                }
+                head.next.data = cur;
+            }
+        }
     }
     
     /**
