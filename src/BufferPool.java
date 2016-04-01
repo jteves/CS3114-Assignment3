@@ -1,6 +1,7 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-//FIX READ METHOD
+
 
 /**
  * The list that is used to get the names at each leafnode of the tree
@@ -25,17 +26,22 @@ public class BufferPool  {
     private int size;
     private Node last;
     private int max;
+    RandomAccessFile raf;
     
     /**
      * A generic list constructor
-     * @param x is the max list size
+     * @param x is the max list size 
+     * @throws IOException 
      */
-    public BufferPool(int x) {
+    public BufferPool(String name, int x) throws IOException {
         head = new Node(-1, null);
         last = null;
         size = 0;
         max = x;
         iteToHead();
+        
+        raf = new RandomAccessFile(name, "rw");
+        
     }
     
     /**
@@ -80,6 +86,16 @@ public class BufferPool  {
         ite = head;
     }
     
+    public void iteNodeToHead() {
+        Node temp = head;
+        while (temp.next != ite) {
+            temp = temp.next;
+        }
+        temp.next = ite.next;
+        ite.next = head.next;
+        head.next = ite;
+    }
+    
     /**
      * Sets the current node to the next node
      */
@@ -114,7 +130,13 @@ public class BufferPool  {
     public void read(RandomAccessFile file, int x) {
         byte[] temp = new byte[4096];
         try {
-            file.read(temp, x * 4096, 4096);
+            file.seek(x * 4096);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            file.readFully(temp);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,26 +148,54 @@ public class BufferPool  {
         isContained(x);
         temp = ite.data;
         try {
-            file.write(temp, x * 4096, 4096);
+            file.seek(4096 * x);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            file.write(temp);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     //FIX THIS NOT FINISHED
-    public Byte[] sendToMerge(int beg, int end) {
+    public byte[] sendToMerge(int beg, int end) {
         int dif = end - beg;
-        Byte[] temp = new Byte[dif];
+        byte[] temp = new byte[dif];
         int bytesRead = 0;
         while (bytesRead != temp.length) {
             if (isContained((beg + bytesRead) / 4096)) {
-                int i = (bytesRead + beg) % 4096;
-                while (i < 4096 && i < dif) {
-                    
+                int i = (beg + bytesRead) % 4096;
+                byte[] cur = ite.data;
+                while (bytesRead != temp.length && i < 4096) {
+                    temp[bytesRead] = cur[i];
+                    temp[bytesRead + 1] = cur[i + 1];
+                    temp[bytesRead + 2] = cur[i + 2];
+                    temp[bytesRead + 3] = cur[i + 3];
+                    bytesRead += 4;
+                    i+=4;
+                }
+                iteNodeToHead();
+            }
+            else {
+                if (isFull()){
+                    remove();
+                }
+                read(raf, (beg + bytesRead) / 4096);
+                int i = (beg + bytesRead) % 4096;
+                byte[] cur = head.next.data;
+                while (bytesRead != temp.length && i < 4096) {
+                    temp[bytesRead] = cur[i];
+                    temp[bytesRead + 1] = cur[i + 1];
+                    temp[bytesRead + 2] = cur[i + 2];
+                    temp[bytesRead + 3] = cur[i + 3];
+                    bytesRead += 4;
+                    i+=4;
                 }
             }
         }
-        return null;
+        return temp;
     }
     
     /**
