@@ -52,10 +52,6 @@ public class Mergesort {
             beg = 0;            
             while (beg < len) {
             	temp = step;
-
-            	if (temp == 4*4096) {
-            		System.out.println("failure");
-            	}
             	if (beg + step > len) {
             		step = len - beg;
             	}
@@ -66,21 +62,21 @@ public class Mergesort {
                 right = temp / 2;
                 for (int i = 0; i < step / 4; i++) {
 
-                    if (right >= step || arr[left] > arr[right]) {
+                    if (right >= step || arr[left] < arr[right]) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];
                         ans[(4 * i) + 2] = arr[left + 2];
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
-                    else if (left >= temp / 2 || arr[left] < arr[right]) {
+                    else if (left >= temp / 2 || arr[left] > arr[right]) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
                         ans[(4 * i) + 3] = arr[right + 3];
                         right += 4;
                     }
-                    else if (arr[right + 1] > arr[left + 1]) {
+                    else if (arr[left + 1] >= arr[right + 1]) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
@@ -97,7 +93,7 @@ public class Mergesort {
                 }
                 int test = ans[1];
                 for (int j = 1; j < ans.length; j += 4) {
-                    if (test < ans[j]) {
+                    if (test > ans[j]) {
                         System.out.println("dang " + temp);
                     }
                     test = ans[j];
