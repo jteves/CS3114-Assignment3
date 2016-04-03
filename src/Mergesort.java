@@ -91,22 +91,10 @@ public class Mergesort {
                         left += 4;
                     }
                 }
-                int test = ans[1];
-                for (int j = 1; j < ans.length; j += 4) {
-                    if (test > ans[j]) {
-                        System.out.println("dang " + temp);
-                    }
-                    test = ans[j];
-                    
-                }
                 bp.recieveFromMerge(beg, ans);
                 beg += temp;
             }
             step = temp * 2;
-            //if (step > len && step < 2 * len) {
-            //	step = len;
-            //	System.out.println("effin a cottin");
-            //}
         }
     }
 }
