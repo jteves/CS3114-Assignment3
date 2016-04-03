@@ -42,27 +42,38 @@ public class Mergesort {
     
     public void sort() {
         int beg;
+        int temp = 0;
         int step = 8;
         byte[] arr;
         byte[] ans;
         int left;
         int right;
         while (step <= len) {
-            beg = 0;
+            beg = 0;            
             while (beg < len) {
+            	temp = step;
+
+            	if (temp == 4*4096) {
+            		System.out.println("failure");
+            	}
+            	if (beg + step > len) {
+            		step = len - beg;
+            	}
+            	
                 arr = bp.sendToMerge(beg, beg + step);
                 ans = new byte[step];
                 left = 0;
-                right = step / 2;
+                right = temp / 2;
                 for (int i = 0; i < step / 4; i++) {
-                    if (right == step || arr[left] > arr[right]) {
+
+                    if (right >= step || arr[left] > arr[right]) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];
                         ans[(4 * i) + 2] = arr[left + 2];
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
-                    else if (left == step / 2 || arr[left] < arr[right]) {
+                    else if (left >= temp / 2 || arr[left] < arr[right]) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
@@ -87,16 +98,19 @@ public class Mergesort {
                 int test = ans[1];
                 for (int j = 1; j < ans.length; j += 4) {
                     if (test < ans[j]) {
-                        System.out.println("dang");
+                        //System.out.println("dang");
                     }
                     test = ans[j];
                     
                 }
                 bp.recieveFromMerge(beg, ans);
-                beg += step;
+                beg += temp;
             }
-            
-            step*=2;
+            step = temp * 2;
+            if (step > len && step < 2 * len) {
+            	step = len;
+            	break;
+            }
         }
     }
 }
