@@ -48,7 +48,7 @@ public class Mergesort {
         byte[] ans;
         int left;
         int right;
-        while (step <= len) {
+        while (step <= 2 * len) {
             beg = 0;            
             while (beg < len) {
             	temp = step;
@@ -98,7 +98,7 @@ public class Mergesort {
                 int test = ans[1];
                 for (int j = 1; j < ans.length; j += 4) {
                     if (test < ans[j]) {
-                        //System.out.println("dang");
+                        System.out.println("dang " + temp);
                     }
                     test = ans[j];
                     
@@ -107,10 +107,10 @@ public class Mergesort {
                 beg += temp;
             }
             step = temp * 2;
-            if (step > len && step < 2 * len) {
-            	step = len;
-            	break;
-            }
+            //if (step > len && step < 2 * len) {
+            //	step = len;
+            //	System.out.println("effin a cottin");
+            //}
         }
     }
 }
