@@ -32,5 +32,15 @@ public class BufferPoolTest extends TestCase {
 			e.printStackTrace();
 		}
     }
+    
+    public void test2() {
+    	FileGenerator whoCares = new FileGenerator();
+        String[] list = {"-a", "C:\\Users\\jacobteves\\Downloads\\test.txt", "3"};
+        try {
+            whoCares.generateFile(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
