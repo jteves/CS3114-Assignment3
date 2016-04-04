@@ -1,3 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * { your description of the project here }
  */
@@ -12,6 +18,10 @@
 public class Mergesort {
 
     private int len;
+    private int numCache;
+    private int numRead;
+    private int numWrite;
+    
     BufferPool bp;
     
     
@@ -21,7 +31,39 @@ public class Mergesort {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello, World");
+		String unsortedFile = args[0];
+
+		int numBuf = Integer.parseInt(args[1]);
+		int fLen = (int) (new File(unsortedFile)).length();
+		
+        BufferPool pool = new BufferPool(unsortedFile, numBuf);
+        Mergesort sort = new Mergesort(fLen, pool);
+
+		long start = System.currentTimeMillis();
+        sort.sort();
+        sort.getPool().flush();
+		long sortTime = System.currentTimeMillis() - start;
+        
+		try {
+    		File sFile = new File(args[2]);
+    		
+    		//if file doesn't exists, then create it
+    		if(!sFile.exists()){
+    			sFile.createNewFile();
+    		}
+    		FileWriter fw = new FileWriter(sFile.getName(),true);
+	        BufferedWriter bw = new BufferedWriter(fw);
+	        bw.write("Unsorted File: " + unsortedFile);
+	        bw.write("Cache Hits: " + sort.numCache);
+	        bw.write("Disk Reads: " + sort.numRead);
+	        bw.write("Disk Writes: " + sort.numWrite);
+	        bw.write("Time: " + sortTime);
+	        
+	        bw.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -96,5 +138,13 @@ public class Mergesort {
             }
             step = temp * 2;
         }
+    }
+    
+    /**
+     * For testing purposes
+     * @return
+     */
+    public BufferPool getPool() {
+    	return bp;
     }
 }

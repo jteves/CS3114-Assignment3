@@ -31,16 +31,19 @@ public class BufferPool  {
     /**
      * A generic list constructor
      * @param x is the max list size 
-     * @throws IOException 
      */
-    public BufferPool(String name, int x) throws IOException {
+    public BufferPool(String name, int x) {
         head = new Node(-1, null);
         last = null;
         size = 0;
         max = x;
         iteToHead();
         
-        raf = new RandomAccessFile(name, "rw");
+        try {
+			raf = new RandomAccessFile(name, "rw");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
         
     }
     

@@ -8,23 +8,29 @@ public class BufferPoolTest extends TestCase {
     Mergesort sort;
     /** 
      * set up
-     * @throws IOException 
      */
-    public void setUp() throws IOException {
+    public void setUp() {
         FileGenerator whoCares = new FileGenerator();
-        String[] list = {"-a", "DrewTest.txt", "1000"};
+        String[] list = {"-a", "DrewTest.txt", "3"};
         try {
             whoCares.generateFile(list);
         } catch (IOException e) {
             e.printStackTrace();
         }
         pool = new BufferPool("DrewTest.txt", 5);
-        sort = new Mergesort(1000 * 4096, pool);
+        sort = new Mergesort(3 * 4096, pool);
     }
     
     public void test() {
         sort.sort();
-        sort.bp.flush();
+        sort.getPool().flush();
+        
+        // Test that the file is properly sorted
+        try {
+			assertTrue((new CheckFile()).checkFile("DrewTest.txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 }
