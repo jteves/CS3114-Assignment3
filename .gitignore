@@ -25,3 +25,4 @@ hs_error_pid*
 *.lib
 *.exe
 *.app
+/DrewTest.txt

@@ -51,13 +51,20 @@ public class Mergesort {
     		if(!sFile.exists()){
     			sFile.createNewFile();
     		}
-    		FileWriter fw = new FileWriter(sFile.getName(),true);
+    		FileWriter fw = new FileWriter(sFile.getPath(),true);
 	        BufferedWriter bw = new BufferedWriter(fw);
-	        bw.write("Unsorted File: " + unsortedFile + "\n");
-	        bw.write("Cache Hits: " + sort.numCache + "\n");
-	        bw.write("Disk Reads: " + sort.numRead + "\n");
-	        bw.write("Disk Writes: " + sort.numWrite + "\n");
-	        bw.write("Time: " + sortTime + "\n");
+	        //bw.write(new ());
+	        bw.write("Unsorted File: " + unsortedFile);
+	        bw.newLine();
+	        bw.write("Cache Hits: " + sort.numCache);
+	        bw.newLine();
+	        bw.write("Disk Reads: " + sort.numRead);
+	        bw.newLine();
+	        bw.write("Disk Writes: " + sort.numWrite);
+	        bw.newLine();
+	        bw.write("Time: " + sortTime);
+	        bw.newLine();
+	        bw.newLine();
 	        
 	        bw.close();
 		}

@@ -1,0 +1,10 @@
+Unsorted File: C:\Users\jacobteves\Downloads\test.txt
+Cache Hits: 0
+Disk Reads: 0
+Disk Writes: 0
+Time: 53
+Unsorted File: C:\Users\jacobteves\Downloads\test.txt
+Cache Hits: 0
+Disk Reads: 0
+Disk Writes: 0
+Time: 49
