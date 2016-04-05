@@ -118,24 +118,43 @@ public class Mergesort {
                 ans = new byte[step];
                 left = 0;
                 right = temp / 2;
-                int x = 0xffffffff;
+                int x = 0x0000ffff;
+                int r0 = 0;
+                int r1 = 0;
+                int l0 = 0;
+                int l1 = 0;
                 for (int i = 0; i < step / 4; i++) {
-                    
-                    if (right >= step || (arr[left] & x) < (arr[right] & x)) {
+                    if (right >= step) {
+                        r0 = 0x0fffffff;
+                        r1 = 0x0fffffff;
+                    }
+                    else {
+                        r0 = arr[right] & x;
+                        r1 = arr[right + 1] & x;
+                    }
+                    if (left >= temp / 2) {
+                        l0 = 0x0fffffff;
+                        l1 = 0x0fffffff;
+                    }
+                    else {
+                        l0 = arr[left] & x;
+                        l1 = arr[left + 1] & x;
+                    }
+                    if (right >= step || l0 < r0) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];
                         ans[(4 * i) + 2] = arr[left + 2];
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
-                    else if (left >= temp / 2 || (arr[left] & x) > (arr[right] & x)) {
+                    else if (left >= temp / 2 || l0 > r0) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
                         ans[(4 * i) + 3] = arr[right + 3];
                         right += 4;
                     }
-                    else if ((arr[left + 1] & x) > (arr[right + 1] & x)) {
+                    else if (l1 > r1) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
