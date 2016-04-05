@@ -32,5 +32,6 @@ public class MergesortTest
 		byte[] hello = {1,2, 3, 4};
 		pool.recieveFromMerge(0, hello);
 		pool.remove();
+		assertEquals(0, 0);
 	}
 }
