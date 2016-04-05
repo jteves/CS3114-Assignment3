@@ -119,7 +119,7 @@ public class Mergesort {
                 left = 0;
                 right = temp / 2;
                 for (int i = 0; i < step / 4; i++) {
-
+                    
                     if (right >= step || arr[left] < arr[right]) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];

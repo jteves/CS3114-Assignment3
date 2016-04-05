@@ -32,3 +32,9 @@ Disk Reads: 26984
 Disk Writes: 26984
 Time: 584
 
+Unsorted File: DrewTest.txt
+Cache Hits: 143340
+Disk Reads: 10
+Disk Writes: 10
+Time: 38
+
