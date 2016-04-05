@@ -27,7 +27,7 @@ public class MergesortTest
 		sort.upWrite();
 		sort.getPool();
 		
-		pool.sendToMerge(0, 50);
+		pool.sendToMerge(0, 8);
 		byte[] hello = {1,2, 3, 4};
 		pool.recieveFromMerge(0, hello);
 		pool.remove();
