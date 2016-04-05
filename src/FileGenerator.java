@@ -62,8 +62,15 @@ public class FileGenerator
             {
                 for (int j = 0; j < NUM_RECS; j++)
                 {
+                    if ((j % 2) == 1)
+                    {
+                        val = (short)(8224);
+                    }
+                    else {
                     val = (short)(random(29999) + 1);
+                    }
                     file.writeShort(val);
+                    
                 }
             }
         }
