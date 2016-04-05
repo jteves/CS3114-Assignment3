@@ -118,23 +118,24 @@ public class Mergesort {
                 ans = new byte[step];
                 left = 0;
                 right = temp / 2;
+                int x = 0xffffffff;
                 for (int i = 0; i < step / 4; i++) {
                     
-                    if (right >= step || arr[left] < arr[right]) {
+                    if (right >= step || (arr[left] & x) < (arr[right] & x)) {
                         ans[(4 * i)] = arr[left];
                         ans[(4 * i) + 1] = arr[left + 1];
                         ans[(4 * i) + 2] = arr[left + 2];
                         ans[(4 * i) + 3] = arr[left + 3];
                         left += 4;
                     }
-                    else if (left >= temp / 2 || arr[left] > arr[right]) {
+                    else if (left >= temp / 2 || (arr[left] & x) > (arr[right] & x)) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
                         ans[(4 * i) + 3] = arr[right + 3];
                         right += 4;
                     }
-                    else if (arr[left + 1] > arr[right + 1]) {
+                    else if ((arr[left + 1] & x) > (arr[right + 1] & x)) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
