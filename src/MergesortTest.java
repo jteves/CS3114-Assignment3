@@ -16,9 +16,17 @@ public class MergesortTest
 	}
 	
 	public void testInit() {
-		Mergesort merge = new Mergesort();
-		assertNotNull(merge);
-		Mergesort.main(null);
-		assertFuzzyEquals("Hello, World", systemOut().getHistory());
+		BufferPool pool = new BufferPool("DrewTest.txt", 10);
+		pool.getFile();
+		pool.flush();
+		Mergesort sort = new Mergesort(1000 * 4096, pool);
+		Mergesort sort2 = new Mergesort();
+		pool.addMerge(sort);
+		sort.upCache();
+		sort.upRead();
+		sort.upWrite();
+		sort.getPool();
+		pool.read(null, 10);
+		pool.write(null, 10);
 	}
 }

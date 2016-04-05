@@ -27,6 +27,7 @@ public class BufferPool  {
     private Node last;
     private int max;
     RandomAccessFile raf;
+    private Mergesort merge;
     
     /**
      * A generic list constructor
@@ -45,6 +46,13 @@ public class BufferPool  {
 			e.printStackTrace();
 		}
         
+    }
+    
+    /**
+     * 
+     */
+    public void addMerge(Mergesort sort) {
+       merge = sort; 
     }
     
     /**
@@ -144,6 +152,7 @@ public class BufferPool  {
             e.printStackTrace();
         }
         insert(x, temp);
+        merge.upRead();
     }
     
     public void write(RandomAccessFile file, int x) {
@@ -160,6 +169,7 @@ public class BufferPool  {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        merge.upWrite();
     }
     
     public void flush() {
@@ -179,6 +189,7 @@ public class BufferPool  {
                 e.printStackTrace();
             }
             iteNext();
+            merge.upWrite();
         }
     }
     
@@ -198,6 +209,7 @@ public class BufferPool  {
                     temp[bytesRead + 3] = cur[i + 3];
                     bytesRead += 4;
                     i+=4;
+                    merge.upCache();
                 }
                 iteNodeToHead();
             }
@@ -279,6 +291,10 @@ public class BufferPool  {
             data = bytes;
             pos = loc;
         }
+    }
+    
+    public RandomAccessFile getFile() {
+        return raf;
     }
 }
 

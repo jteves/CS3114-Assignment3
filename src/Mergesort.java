@@ -18,9 +18,9 @@ import java.io.PrintWriter;
 public class Mergesort {
 
     private int len;
-    private int numCache;
-    private int numRead;
-    private int numWrite;
+    int numCache;
+    int numRead;
+    int numWrite;
     
     BufferPool bp;
     
@@ -38,11 +38,17 @@ public class Mergesort {
 		
         BufferPool pool = new BufferPool(unsortedFile, numBuf);
         Mergesort sort = new Mergesort(fLen, pool);
+        pool.addMerge(sort);
 
 		long start = System.currentTimeMillis();
         sort.sort();
         sort.getPool().flush();
 		long sortTime = System.currentTimeMillis() - start;
+		try {
+            pool.getFile().close();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         
 		try {
     		File sFile = new File(args[2]);
@@ -80,6 +86,9 @@ public class Mergesort {
 	public Mergesort(int x, BufferPool pool) {
 	    len = x;
 	    bp = pool;
+	    numRead = 0;
+	    numWrite = 0;
+	    numCache = 0;
 	}
 	
 	/**
@@ -153,5 +162,47 @@ public class Mergesort {
      */
     public BufferPool getPool() {
     	return bp;
+    }
+    
+    /**
+     * increments numCache
+     */
+    public void upCache() {
+        numCache++;
+    }
+    
+    /**
+     * increments numRead
+     */
+    public void upRead() {
+        numRead++;
+    }
+    
+    /**
+     * increments numWrite
+     */
+    public void upWrite() {
+        numWrite++;
+    }
+    
+    /**
+     * increments numCache
+     */
+    public int numCache() {
+        return numCache;
+    }
+    
+    /**
+     * increments numRead
+     */
+    public int numRead() {
+        return numRead;
+    }
+    
+    /**
+     * increments numWrite
+     */
+    public int numWrite() {
+        return numWrite;
     }
 }
