@@ -11,7 +11,7 @@ public class BufferPoolTest extends TestCase {
      */
     public void setUp() {
         FileGenerator whoCares = new FileGenerator();
-        String[] list = {"-a", "DrewTest.txt", "10"};
+        String[] list = {"-b", "DrewTest.txt", "10"};
         try {
             whoCares.generateFile(list);
         } catch (IOException e) {

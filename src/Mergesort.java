@@ -134,7 +134,7 @@ public class Mergesort {
                         ans[(4 * i) + 3] = arr[right + 3];
                         right += 4;
                     }
-                    else if (arr[left + 1] >= arr[right + 1]) {
+                    else if (arr[left + 1] > arr[right + 1]) {
                         ans[(4 * i)] = arr[right];
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
