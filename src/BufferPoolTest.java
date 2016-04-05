@@ -11,14 +11,14 @@ public class BufferPoolTest extends TestCase {
      */
     public void setUp() {
         FileGenerator whoCares = new FileGenerator();
-        String[] list = {"-a", "DrewTest.txt", "1"};
+        String[] list = {"-a", "DrewTest.txt", "10"};
         try {
             whoCares.generateFile(list);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        pool = new BufferPool("DrewTest.txt", 2);
-        sort = new Mergesort(1 * 4096, pool);
+        pool = new BufferPool("DrewTest.txt", 6);
+        sort = new Mergesort(10 * 4096, pool);
         pool.addMerge(sort);
     }
     
