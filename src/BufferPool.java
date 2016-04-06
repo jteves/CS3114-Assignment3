@@ -307,13 +307,13 @@ public class BufferPool  {
                     temp[bytesRead + 2] = cur[i + 2];
                     temp[bytesRead + 3] = cur[i + 3];
                     bytesRead += 4;
-                    i+=4;
+                    i += 4;
                     merge.upCache(); // increments cache
                 }
                 iteNodeToHead(); // resents ite to head
             }
             else {
-                if (isFull()){
+                if (isFull()) {
                     //removes a node if the list is 
                     //full because a new one will be
                     // read into the list
@@ -333,7 +333,7 @@ public class BufferPool  {
                     temp[bytesRead + 2] = cur[i + 2];
                     temp[bytesRead + 3] = cur[i + 3];
                     bytesRead += 4;
-                    i+=4;
+                    i += 4;
                 }
             }
         }
@@ -356,7 +356,7 @@ public class BufferPool  {
      */
     public void recieveFromMerge(int beg, byte[] arr) {
         int dif = arr.length; // length of the array
-        int bytesRead = 0;// keeps track of bytes written
+        int bytesRead = 0; // keeps track of bytes written
         while (bytesRead < dif) {
             if (isContained((beg + bytesRead) / 4096)) {
                 int i = (beg + bytesRead) % 4096; //finds the 
@@ -369,22 +369,22 @@ public class BufferPool  {
                     cur[i + 2] = arr[bytesRead + 2];
                     cur[i + 3] = arr[bytesRead + 3];
                     bytesRead += 4;
-                    i+=4;
+                    i += 4;
                 }
                 iteNodeToHead();
                 head.next.data = cur; // new value for data
             }
             else {
-                if (isFull()){
+                if (isFull()) {
                     //writes to file and removes 
                     //node because a new byte array must
                     // be read
                     write(raf, last.pos);
                     remove();
                 }
-                read(raf, (beg + bytesRead) / 4096);// reads bytes
-                int i = (beg + bytesRead) % 4096;// gets beginning of
-                // write location in the array
+                read(raf, (beg + bytesRead) / 4096); // reads bytes
+                // gets beginning of write location in the array
+                int i = (beg + bytesRead) % 4096; 
                 byte[] cur = head.next.data; //gets byte array
                 while (bytesRead < dif && i < 4096) {
                     // writes to array
@@ -393,14 +393,22 @@ public class BufferPool  {
                     cur[i + 2] = arr[bytesRead + 2];
                     cur[i + 3] = arr[bytesRead + 3];
                     bytesRead += 4;
-                    i+=4;
+                    i += 4;
                 }
                 //sets data
                 head.next.data = cur;
             }
         }
     }
-    
+
+    /**
+     * Getter for the random access file of the pool
+     * @return the file
+     */
+     public RandomAccessFile getFile() {
+         return raf;
+     }
+     
     /**
      * The Nodes that contain the buffer data and next node
      * @author Drew Williams, Jacob Teves
@@ -413,19 +421,14 @@ public class BufferPool  {
         private int pos;
         
         /**
-         * @param s the string data the node contains
+         * Node that stores a byte array and loc index
+         * @param loc the location of the node
+         * @param bytes the bytes data of the node
          */
         private Node(int loc, byte[] bytes) {
             data = bytes;
             pos = loc;
         }
-    }
-   /**
-    * 
-    * @return the file
-    */
-    public RandomAccessFile getFile() {
-        return raf;
     }
 }
 
