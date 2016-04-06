@@ -37,12 +37,12 @@ public class BufferPoolTest extends TestCase {
      * Tests to make sure the generated file gets sorted
      */
     public void test() {
-    	try {
-			assertFalse((new CheckFile()).checkFile("DrewTest.txt"));
-		} 
-    	catch (Exception e1) {
-			e1.printStackTrace();
-		}
+        try {
+            assertFalse((new CheckFile()).checkFile("DrewTest.txt"));
+        } 
+        catch (Exception e1) {
+            e1.printStackTrace();
+        }
         sort.sort();
         sort.getPool().flush();
         
