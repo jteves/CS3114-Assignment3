@@ -17,9 +17,13 @@ public class BufferPoolTest extends TestCase {
      */
     public void setUp() {
         FileGenerator fg = new FileGenerator();
-        String[] list = {"-a", "DrewTest.txt", "10"};
+        String[] list1 = {"-c", "DrewTest.txt", "10"};
+        String[] list2 = {"-b", "DrewTest.txt", "10"};
+        String[] list3 = {"-a", "DrewTest.txt", "10"};
         try {
-            fg.generateFile(list);
+            fg.generateFile(list1);
+            fg.generateFile(list2);
+            fg.generateFile(list3);
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -33,7 +37,12 @@ public class BufferPoolTest extends TestCase {
      * Tests to make sure the generated file gets sorted
      */
     public void test() {
-    	assertFalse((new CheckFile()).checkFile("DrewTest.txt"));
+    	try {
+			assertFalse((new CheckFile()).checkFile("DrewTest.txt"));
+		} 
+    	catch (Exception e1) {
+			e1.printStackTrace();
+		}
         sort.sort();
         sort.getPool().flush();
         

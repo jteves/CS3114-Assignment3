@@ -38,102 +38,103 @@ public class Mergesort {
     private BufferPool bp;
     
     
-	/**
-	 * Main method for the program
-	 * 
-	 * takes an unsorted file name and sorts the file
-	 * using a mergesort
-	 * 
-	 * uses a buffer pool to communicate between the file 
-	 * and the external mergesort
-	 * 
-	 * @param args should be 3 arguments
-	 * 1. the input file
-	 * 2. the number of buffers to be used
-	 * 3. the output stats file
-	 */
-	public static void main(String[] args) {
-		String unsortedFile = args[0]; // file name
+    /**
+     * Main method for the program
+     * 
+     * takes an unsorted file name and sorts the file
+     * using a mergesort
+     * 
+     * uses a buffer pool to communicate between the file 
+     * and the external mergesort
+     * 
+     * @param args should be 3 arguments
+     * 1. the input file
+     * 2. the number of buffers to be used
+     * 3. the output stats file
+     */
+    public static void main(String[] args) {
+        String unsortedFile = args[0]; // file name
 
-		int numBuf = Integer.parseInt(args[1]); // number of
-		//buffers
-		int fLen = (int) (new File(unsortedFile)).length(); 
-		// length of unsorted file
-		
-		// creates the buffer pool
+        int numBuf = Integer.parseInt(args[1]); // number of
+        //buffers
+        int fLen = (int) (new File(unsortedFile)).length(); 
+        // length of unsorted file
+        
+        // creates the buffer pool
         BufferPool pool = new BufferPool(unsortedFile, numBuf);
         //creats this sort object
         Mergesort sort = new Mergesort(fLen, pool);
         // adds the mergesort to the pool
         pool.addMerge(sort);
 
-		long start = System.currentTimeMillis(); // start time
+        long start = System.currentTimeMillis(); // start time
         sort.sort(); // sorts the file
         sort.getPool().flush(); // flushes the buffers
         
         // gets total sort time
-		long sortTime = System.currentTimeMillis() - start;
-		try {
+        long sortTime = System.currentTimeMillis() - start;
+        try {
             pool.getFile().close(); //closes the file
-        } catch (IOException e1) {
+        } 
+        catch (IOException e1) {
             e1.printStackTrace();
         }
         
-		try {
-    		File sFile = new File(args[2]);//stat file
-    		
-    		//if file doesn't exists, then create it
-    		if(!sFile.exists()){
-    			sFile.createNewFile();
-    		}
-    		//creates writer to write to file
-    		FileWriter fw = new FileWriter(sFile.getPath(),true);
-    		//creates buffered writer to write to file
-	        BufferedWriter bw = new BufferedWriter(fw);
-	        //wirtes all of the info to the file
-	        bw.write("Unsorted File: " + unsortedFile);
-	        bw.newLine();
-	        bw.write("Cache Hits: " + sort.numCache);
-	        bw.newLine();
-	        bw.write("Disk Reads: " + sort.numRead);
-	        bw.newLine();
-	        bw.write("Disk Writes: " + sort.numWrite);
-	        bw.newLine();
-	        bw.write("Time: " + sortTime);
-	        bw.newLine();
-	        bw.newLine();
-	        
-	        //closes the file
-	        bw.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * constructor  creates a new mergesort
-	 * @param x the length of the data to be sorted
-	 * @param pool is the buffer pool that handles
-	 * all of the reads and writes from the file
-	 */
-	public Mergesort(int x, BufferPool pool) {
-	    len = x; //sets length of file
-	    bp = pool;// sets buffer pool
-	    
-	    //initializes stats
-	    numRead = 0;
-	    numWrite = 0;
-	    numCache = 0;
-	}
-	
-	/**
-	 * sorts the file pointed to by the bufferpool 
-	 * by using a merge sort
-	 * 
-	 * begins with a step size of 8 and increases it every 
-	 * pass through the file until the file has been sorteed
-	 */
+        try {
+            File sFile = new File(args[2]); //stat file
+            
+            //if file doesn't exists, then create it
+            if (!sFile.exists()) {
+                sFile.createNewFile();
+            }
+            //creates writer to write to file
+            FileWriter fw = new FileWriter(sFile.getPath(),true);
+            //creates buffered writer to write to file
+            BufferedWriter bw = new BufferedWriter(fw);
+            //wirtes all of the info to the file
+            bw.write("Unsorted File: " + unsortedFile);
+            bw.newLine();
+            bw.write("Cache Hits: " + sort.numCache);
+            bw.newLine();
+            bw.write("Disk Reads: " + sort.numRead);
+            bw.newLine();
+            bw.write("Disk Writes: " + sort.numWrite);
+            bw.newLine();
+            bw.write("Time: " + sortTime);
+            bw.newLine();
+            bw.newLine();
+            
+            //closes the file
+            bw.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * constructor  creates a new mergesort
+     * @param x the length of the data to be sorted
+     * @param pool is the buffer pool that handles
+     * all of the reads and writes from the file
+     */
+    public Mergesort(int x, BufferPool pool) {
+        len = x; //sets length of file
+        bp = pool; // sets buffer pool
+        
+        //initializes stats
+        numRead = 0;
+        numWrite = 0;
+        numCache = 0;
+    }
+    
+    /**
+     * sorts the file pointed to by the bufferpool 
+     * by using a merge sort
+     * 
+     * begins with a step size of 8 and increases it every 
+     * pass through the file until the file has been sorteed
+     */
     public void sort() {
         int beg; // beginning of data
         int temp = 0; // temp step value
@@ -147,18 +148,18 @@ public class Mergesort {
         while (step <= 2 * len) {
             beg = 0; // starts at begin of file
             while (beg < len) {
-            	temp = step; //saves step value
-            	if (beg + step > len) {
-            		step = len - beg; // protects from
-            		//out of bounds array operations
-            	}
-            	//gets elements to be sorted this trip through
-            	// the file
+                temp = step; //saves step value
+                if (beg + step > len) {
+                    step = len - beg; // protects from
+                    //out of bounds array operations
+                }
+                //gets elements to be sorted this trip through
+                // the file
                 arr = bp.sendToMerge(beg, beg + step);
                 ans = new byte[step]; // will become the sorted
                 // array for this trip through the array
-                left = 0;// left starts at 0
-                right = temp / 2;// right is half way through
+                left = 0; // left starts at 0
+                right = temp / 2; // right is half way through
                 // the array
                 
                 //START: this section is to protect from bytes
@@ -213,7 +214,7 @@ public class Mergesort {
                         ans[(4 * i) + 1] = arr[right + 1];
                         ans[(4 * i) + 2] = arr[right + 2];
                         ans[(4 * i) + 3] = arr[right + 3];
-                        right +=4;
+                        right += 4;
                     }
                     else {
                         //writes bytes if right is bigger
@@ -239,7 +240,7 @@ public class Mergesort {
      * @return the buffer pool
      */
     public BufferPool getPool() {
-    	return bp;
+        return bp;
     }
     
     /**
@@ -264,21 +265,24 @@ public class Mergesort {
     }
     
     /**
-     * increments numCache
+     * gets numCache
+     * @return the number of caches
      */
     public int numCache() {
         return numCache;
     }
     
     /**
-     * increments numRead
+     * gets numRead
+     * @return the number of reads from the disk
      */
     public int numRead() {
         return numRead;
     }
     
     /**
-     * increments numWrite
+     * gets numWrite
+     * @return the number of writes to the disk
      */
     public int numWrite() {
         return numWrite;
