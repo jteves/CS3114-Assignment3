@@ -27,7 +27,7 @@ public class MergesortTest
 		sort.upWrite();
 		sort.getPool();
 		
-		assertEquals(null, pool.sendToMerge(0, 8));
+		assertEquals(8, pool.sendToMerge(0, 8).length);
 		pool.sendToMerge(0, 8);
 		pool.sendToMerge(8, 16);
 		pool.sendToMerge(8, 16);
