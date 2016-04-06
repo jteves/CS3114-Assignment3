@@ -2,19 +2,26 @@ import java.io.IOException;
 
 import student.TestCase;
 
+/**
+ * Test for the buffer pool
+ * 
+ * @author Drew Williams, Jacob Teves
+ * @version 4/05/2016
+ */
 public class BufferPoolTest extends TestCase {
     
-    BufferPool pool;
-    Mergesort sort;
+    private BufferPool pool;
+    private Mergesort sort;
     /** 
      * set up
      */
     public void setUp() {
-        FileGenerator whoCares = new FileGenerator();
+        FileGenerator fg = new FileGenerator();
         String[] list = {"-a", "DrewTest.txt", "10"};
         try {
-            whoCares.generateFile(list);
-        } catch (IOException e) {
+            fg.generateFile(list);
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
         pool = new BufferPool("DrewTest.txt", 6);
@@ -22,21 +29,26 @@ public class BufferPoolTest extends TestCase {
         pool.addMerge(sort);
     }
     
+    /**
+     * Tests to make sure the generated file gets sorted
+     */
     public void test() {
+    	assertFalse((new CheckFile()).checkFile("DrewTest.txt"));
         sort.sort();
         sort.getPool().flush();
         
         // Test that the file is properly sorted
         try {
-			assertTrue((new CheckFile()).checkFile("DrewTest.txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            assertTrue((new CheckFile()).checkFile("DrewTest.txt"));
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 //    public void test2() {
-//    	FileGenerator whoCares = new FileGenerator();
-//        String[] list = {"-a", "C:\\Users\\jacobteves\\Downloads\\test.txt", "3"};
+//        FileGenerator whoCares = new FileGenerator();
+//        String[] list = {"-a", "test.txt", "3"};
 //        try {
 //            whoCares.generateFile(list);
 //        } catch (IOException e) {
