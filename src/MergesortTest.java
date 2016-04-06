@@ -44,9 +44,9 @@ public class MergesortTest
 		assertEquals(0, 0);
 		sort.sort();
 
-		assertEquals(4, sort.numCache());
-		assertEquals(4, sort.numRead());
-		assertEquals(4, sort.numWrite());
+		assertEquals(8195049, sort.numCache());
+		assertEquals(26986, sort.numRead());
+		assertEquals(26975, sort.numWrite());
 	}
 	
 	public void testMain() {

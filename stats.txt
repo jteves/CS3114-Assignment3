@@ -38,3 +38,21 @@ Disk Reads: 10
 Disk Writes: 10
 Time: 38
 
+Unsorted File: test.txt
+Cache Hits: 81940
+Disk Reads: 166
+Disk Writes: 166
+Time: 24
+
+Unsorted File: test.txt
+Cache Hits: 81940
+Disk Reads: 166
+Disk Writes: 166
+Time: 19
+
+Unsorted File: test.txt
+Cache Hits: 81940
+Disk Reads: 166
+Disk Writes: 166
+Time: 24
+
