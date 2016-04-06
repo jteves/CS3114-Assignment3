@@ -58,7 +58,7 @@ public class BufferPool  {
      * list of buffers 
      */
     public BufferPool(String name, int x) {
-        head = new Node(-1, null);// head node
+        head = new Node(-1, null); // head node
         last = null; //there are no values yet so last
         // is null
         size = 0; //no nodes yet
@@ -66,11 +66,12 @@ public class BufferPool  {
         iteToHead(); //moves the iterator to the head node
         
         try {
-			raf = new RandomAccessFile(name, "rw");
-			// opens the file
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+            raf = new RandomAccessFile(name, "rw");
+            // opens the file
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         
     }
     
@@ -85,7 +86,7 @@ public class BufferPool  {
      * @param sort is the mergesort
      */
     public void addMerge(Mergesort sort) {
-       merge = sort; 
+        merge = sort; 
     }
     
     /**
@@ -97,10 +98,12 @@ public class BufferPool  {
      * @param x is the byte array to be stored
      */
     public void insert(int loc, byte[] x) {
-        Node node = new Node(loc, x); //creates
-        //a new node
-        node.next = head.next;// inserts at
-        head.next = node;     // the beginning
+    	//creates a new node
+        Node node = new Node(loc, x); 
+
+        // inserts at the beginning
+        node.next = head.next; 
+        head.next = node;
         if (size == 0) {
             last = node; //sets the value for last
         }
@@ -117,14 +120,15 @@ public class BufferPool  {
     public byte[] remove() {
         byte[] ans;
         iteToHead();
-        while(ite.next != last) {
+        // Traverse to the second to last node
+        while (ite.next != last) {
             iteNext();
         }
         last = ite; //sets last value to new
         // last node
         ans = ite.next.data; // returns this
-        ite.next = null;//last node has no next node
-        size--;// decrements size
+        ite.next = null; //last node has no next node
+        size--; // decrements size
         return ans;
     }
     
@@ -140,22 +144,22 @@ public class BufferPool  {
      * to the front of the list
      */
     public void iteNodeToHead() {
-        Node temp = head; //used to travers
-        // through the list
+    	//used to traverse through the list
+        Node temp = head;
         while (temp.next != ite) {
-            temp = temp.next;// traverses
+            temp = temp.next; // traverses
         }
-        temp.next = ite.next;// setting values
-        ite.next = head.next;// to move the node
-        head.next = ite;     // to the front
+        temp.next = ite.next; // setting values
+        ite.next = head.next; // to move the node
+        head.next = ite;      // to the front
     }
     
     /**
      * Sets the current node to the next node
      */
     public void iteNext() {
-        ite = ite.next;// moves the iterator to the
-        // next node
+    	// moves the iterator to the next node
+        ite = ite.next;
     }
     
     /**
@@ -177,7 +181,7 @@ public class BufferPool  {
         iteToHead();
         boolean ans = false; //value to be 
         //returned
-        while(ite.next != null) {
+        while (ite.next != null) {
             iteNext();
             if (ite.pos == x) {
                 ans = true; //block is found
@@ -195,18 +199,20 @@ public class BufferPool  {
      * @param x the block to be read from the file
      */
     public void read(RandomAccessFile file, int x) {
-        byte[] temp = new byte[4096]; //data being read 
-        // will go here
+    	//data being read will go here
+        byte[] temp = new byte[4096]; 
         try {
-            file.seek(x * 4096); //moves file pointer to
-            // desired location
-        } catch (IOException e1) {
+        	//moves file pointer to desired location
+            file.seek(x * 4096); 
+        } 
+        catch (IOException e1) {
             e1.printStackTrace();
         }
         try {
-            file.readFully(temp); //reads from file to
-            //byte array
-        } catch (IOException e) {
+        	//reads from file to byte array
+            file.readFully(temp); 
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
         insert(x, temp); //inserts the data to the list
@@ -225,12 +231,14 @@ public class BufferPool  {
         temp = ite.data; //grabs data
         try {
             file.seek(4096 * x); // moves file pointer
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
         try {
             file.write(temp); // writes bytes to file
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
         merge.upWrite(); // increments byte counter
@@ -252,12 +260,14 @@ public class BufferPool  {
             try {
                 raf.seek(4096 * ite.pos); // moves 
                 //file pointer
-            } catch (IOException e) {
+            } 
+            catch (IOException e) {
                 e.printStackTrace();
             }
             try {
                 raf.write(temp); // writes bytes
-            } catch (IOException e) {
+            } 
+            catch (IOException e) {
                 e.printStackTrace();
             }
             iteNext();
@@ -283,7 +293,7 @@ public class BufferPool  {
      */
     public byte[] sendToMerge(int beg, int end) {
         int dif = end - beg; // length of byte array
-        byte[] temp = new byte[dif];// arry to be returned
+        byte[] temp = new byte[dif]; // array to be returned
         int bytesRead = 0; //keeps track of bytes read
         while (bytesRead < temp.length) {
             if (isContained((beg + bytesRead) / 4096)) {
