@@ -20,7 +20,7 @@ public class MergesortTest
 		pool.getFile();
 		pool.flush();
 		Mergesort sort = new Mergesort(1000 * 4096, pool);
-		Mergesort sort2 = new Mergesort();
+		
 		pool.addMerge(sort);
 		sort.upCache();
 		sort.upRead();

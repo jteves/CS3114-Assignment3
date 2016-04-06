@@ -26,9 +26,9 @@ public class BufferPoolTest extends TestCase {
         sort.sort();
         sort.getPool().flush();
         
-        System.out.println(sort.numRead);
-        System.out.println(sort.numWrite);
-        System.out.println(sort.numCache);
+        //System.out.println(sort.numRead);
+        //System.out.println(sort.numWrite);
+        //System.out.println(sort.numCache);
         
         // Test that the file is properly sorted
         try {
