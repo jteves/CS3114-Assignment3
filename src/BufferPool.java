@@ -405,9 +405,9 @@ public class BufferPool  {
      * Getter for the random access file of the pool
      * @return the file
      */
-     public RandomAccessFile getFile() {
-         return raf;
-     }
+    public RandomAccessFile getFile() {
+        return raf;
+    }
      
     /**
      * The Nodes that contain the buffer data and next node
