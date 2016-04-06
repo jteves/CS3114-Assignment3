@@ -35,10 +35,15 @@ public class MergesortTest
 		assertEquals(8, pool.sendToMerge(16, 24).length);
 		assertEquals(8, pool.sendToMerge(24, 32).length);
 		assertEquals(4096, pool.sendToMerge(0, 4096).length);
+		
 		byte[] hello = {1,2, 3, 4};
 		pool.recieveFromMerge(0, hello);
 		pool.remove();
 		assertEquals(0, 0);
 		sort.sort();
+	}
+	
+	public void testMain() {
+		Mergesort sort = new Mergesort(0, null);
 	}
 }
