@@ -88,7 +88,7 @@ public class Mergesort {
                 sFile.createNewFile();
             }
             //creates writer to write to file
-            FileWriter fw = new FileWriter(sFile.getPath(),true);
+            FileWriter fw = new FileWriter(sFile.getPath(), true);
             //creates buffered writer to write to file
             BufferedWriter bw = new BufferedWriter(fw);
             //wirtes all of the info to the file
