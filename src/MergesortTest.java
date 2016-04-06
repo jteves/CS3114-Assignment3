@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import student.TestCase;
 
 /**
@@ -41,9 +43,29 @@ public class MergesortTest
 		pool.remove();
 		assertEquals(0, 0);
 		sort.sort();
+
+		assertEquals(4, sort.numCache());
+		assertEquals(4, sort.numRead());
+		assertEquals(4, sort.numWrite());
 	}
 	
 	public void testMain() {
-		Mergesort sort = new Mergesort(0, null);
+        String[] list = {"-b", "test.txt", "10"};        
+        try {
+            (new FileGenerator()).generateFile(list);
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String[] args = {"test.txt", "3", "stats.txt"};
+        Mergesort.main(args);
+        
+        try {
+			assertTrue((new CheckFile()).checkFile("test.txt"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
