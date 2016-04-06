@@ -98,7 +98,7 @@ public class BufferPool  {
      * @param x is the byte array to be stored
      */
     public void insert(int loc, byte[] x) {
-    	//creates a new node
+        //creates a new node
         Node node = new Node(loc, x); 
 
         // inserts at the beginning
@@ -144,7 +144,7 @@ public class BufferPool  {
      * to the front of the list
      */
     public void iteNodeToHead() {
-    	//used to traverse through the list
+        //used to traverse through the list
         Node temp = head;
         while (temp.next != ite) {
             temp = temp.next; // traverses
@@ -158,7 +158,7 @@ public class BufferPool  {
      * Sets the current node to the next node
      */
     public void iteNext() {
-    	// moves the iterator to the next node
+        // moves the iterator to the next node
         ite = ite.next;
     }
     
@@ -199,17 +199,17 @@ public class BufferPool  {
      * @param x the block to be read from the file
      */
     public void read(RandomAccessFile file, int x) {
-    	//data being read will go here
+        //data being read will go here
         byte[] temp = new byte[4096]; 
         try {
-        	//moves file pointer to desired location
+            //moves file pointer to desired location
             file.seek(x * 4096); 
         } 
         catch (IOException e1) {
             e1.printStackTrace();
         }
         try {
-        	//reads from file to byte array
+            //reads from file to byte array
             file.readFully(temp); 
         } 
         catch (IOException e) {
