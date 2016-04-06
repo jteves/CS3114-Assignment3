@@ -65,9 +65,7 @@ public class MergesortTest
         }
 
         String[] args = {"test.txt", "3", "stats.txt"};
-        String[] args2 = {"DrewTest.txt", "3", "stats2.txt"};
         Mergesort.main(args);
-        Mergesort.main(args2);
         
         try {
             assertTrue((new CheckFile()).checkFile("test.txt"));
